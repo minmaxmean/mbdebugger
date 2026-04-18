@@ -1,4 +1,6 @@
- eclipse
+.DS_Store
+
+
 bin
 *.launch
 .settings

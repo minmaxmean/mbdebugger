@@ -27,8 +27,11 @@ class DebuggerItem : Item(Properties()) {
     val error = state.error
 
     if (error != null) {
-      LOGGER.info("Multiblock error: $error")
-      player.displayClientMessage(Component.literal("Unknown Error:"), false)
+      LOGGER.info("Multiblock error: ${error.errorInfo.getString(120)}")
+      player.displayClientMessage(
+              Component.literal("Unknown Error:").append(error.errorInfo),
+              false
+      )
     } else {
       LOGGER.info("Multiblock is valid")
       player.displayClientMessage(Component.literal("Multiblock is valid!"), false)
