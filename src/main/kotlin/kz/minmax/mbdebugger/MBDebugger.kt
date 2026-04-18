@@ -2,7 +2,6 @@ package kz.minmax.mbdebugger
 
 import kz.minmax.mbdebugger.items.DebuggerItem
 import net.minecraft.world.item.CreativeModeTabs
-import net.minecraft.world.item.Item
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.common.Mod
