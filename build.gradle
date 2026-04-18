@@ -104,6 +104,13 @@ repositories {
     name = "TerraformersMC"
     url = "https://maven.terraformersmc.com/"
   }
+  maven {
+    name = 'GTCEu Maven'
+    url = 'https://maven.gtceu.com'
+    content {
+      includeGroup 'com.gregtechceu.gtceu'
+    }
+  }
 }
 
 dependencies {
@@ -112,8 +119,11 @@ dependencies {
 
   implementation "thedarkcolour:kotlinforforge:$kff_version"
 
-//  compileOnly fg.deobf("dev.emi:emi-forge:$emi_version+$minecraft_version:api")
+  // EMI only for when running dev client/server
   runtimeOnly fg.deobf("dev.emi:emi-forge:$emi_version+$minecraft_version")
+
+  // GregTech
+  implementation fg.deobf("com.gregtechceu.gtceu:gtceu-$minecraft_version:$gtm_version") { transitive = false }
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.
