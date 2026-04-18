@@ -1,6 +1,6 @@
-package example.examplemod
+package kz.minmax.mbdebugger
 
-import example.examplemod.block.ModBlocks
+import kz.minmax.mbdebugger.block.ModBlocks
 import net.minecraft.client.Minecraft
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
@@ -16,11 +16,10 @@ import thedarkcolour.kotlinforforge.forge.runForDist
  * The modid should be declared in this object and should match the modId entry
  * in mods.toml.
  *
- * An example for blocks is in the `blocks` package of this mod.
  */
-@Mod(ExampleMod.ID)
-object ExampleMod {
-    const val ID = "examplemod"
+@Mod(MBDebugger.ID)
+object MBDebugger {
+    const val ID = "mbdebugger"
 
     // the logger for our mod
     val LOGGER: Logger = LogManager.getLogger(ID)
