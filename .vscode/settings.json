@@ -1,4 +1,5 @@
 {
   "java.configuration.updateBuildConfiguration": "interactive",
-  "git.enabled": false
+  "git.enabled": false,
+  "java.compile.nullAnalysis.mode": "disabled"
 }

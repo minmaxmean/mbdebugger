@@ -16,16 +16,14 @@ import org.apache.logging.log4j.Logger
 import thedarkcolour.kotlinforforge.forge.MOD_BUS
 import thedarkcolour.kotlinforforge.forge.runForDist
 
-@Mod(MBDebugger.ID)
+const val MOD_ID = "mbdebugger"
+
+@Mod(MOD_ID)
 object MBDebugger {
-  const val ID = "mbdebugger"
+  val LOGGER: Logger = LogManager.getLogger(MOD_ID)
 
-  val LOGGER: Logger = LogManager.getLogger(ID)
-
-  val ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, ID)
-  val DEBUGGER_ITEM: RegistryObject<DebuggerItem> = ITEMS.register("debugger") {
-    DebuggerItem()
-  }
+  val ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MOD_ID)
+  val DEBUGGER_ITEM: RegistryObject<DebuggerItem> = ITEMS.register("debugger") { DebuggerItem() }
 
   init {
     LOGGER.log(Level.INFO, "Hello world!")
@@ -41,7 +39,8 @@ object MBDebugger {
       serverTarget = {
         MOD_BUS.addListener(::onServerSetup)
         "test"
-      })
+      }
+    )
   }
 
   @SubscribeEvent
@@ -52,17 +51,14 @@ object MBDebugger {
   }
 
   /**
-   * This is used for initializing client specific
-   * things such as renderers and keymaps
-   * Fired on the mod specific event bus.
+   * This is used for initializing client specific things such as renderers and keymaps Fired on the
+   * mod specific event bus.
    */
   private fun onClientSetup(event: FMLClientSetupEvent) {
     LOGGER.log(Level.INFO, "Initializing client...")
   }
 
-  /**
-   * Fired on the global Forge bus.
-   */
+  /** Fired on the global Forge bus. */
   private fun onServerSetup(event: FMLDedicatedServerSetupEvent) {
     LOGGER.log(Level.INFO, "Server starting...")
   }

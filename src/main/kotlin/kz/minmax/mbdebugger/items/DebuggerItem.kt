@@ -2,7 +2,10 @@ package kz.minmax.mbdebugger.items
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine
+import com.gregtechceu.gtceu.api.pattern.MultiblockState
 import com.gregtechceu.gtceu.api.pattern.error.PatternError
+import kz.minmax.mbdebugger.MOD_ID
+import kz.minmax.mbdebugger.client.HighlightManager
 import net.minecraft.network.chat.Component
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.item.Item
@@ -27,8 +30,16 @@ class DebuggerItem : Item(Properties()) {
     val state = machine.multiblockState
     val error = state.error
 
+    if (error == MultiblockState.UNLOAD_ERROR || error == MultiblockState.UNINIT_ERROR) {
+      return InteractionResult.PASS
+    }
     if (error != null) {
       val errorMessage = formatError(error)
+
+      if (level.isClientSide) {
+        LOGGER.info("calling highlight $error.pos")
+        HighlightManager.highlight(error.pos)
+      }
 
       LOGGER.info("Multiblock error: ${errorMessage.getString(120)}")
       player.displayClientMessage(errorMessage, false)
@@ -59,6 +70,6 @@ class DebuggerItem : Item(Properties()) {
   }
 
   companion object {
-    val LOGGER = LogManager.getLogger(DebuggerItem::javaClass.name)
+    val LOGGER = LogManager.getLogger(MOD_ID)
   }
 }
