@@ -1,0 +1,45 @@
+name: Release to CurseForge
+
+on:
+  push:
+    tags:
+      - '*' # Triggers on any tag push, e.g., 'v1.0.0' or '1.0.0'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+        
+      - name: Build with Gradle
+        run: chmod +x gradlew && ./gradlew build
+
+      - name: Find Built Jar
+        id: find_jar
+        # Finds the main jar, excluding any sources or javadoc jars
+        run: |
+          JAR_PATH=$(find build/libs -maxdepth 1 -name "mbdebugger-*.jar" -type f ! -name "*-sources.jar" ! -name "*-javadoc.jar" | head -n 1)
+          echo "JAR_PATH=$JAR_PATH" >> $GITHUB_ENV
+
+      - name: Upload to CurseForge
+        uses: itsmeow/curseforge-upload@v3
+        with:
+          file_path: "${{ env.JAR_PATH }}"
+          game_endpoint: "minecraft"
+          game_versions: "Minecraft 1.20.1,Java 17,Forge"
+          project_id: "1521160"
+          token: "${{ secrets.CF_API_TOKEN }}"
+          # Optional: add your dependencies if needed (using their curseforge project slugs)
+          relations: "kotlin-for-forge:requiredDependency,gregtechceu-modern:requiredDependency,ldlib:requiredDependency"
