@@ -37,8 +37,10 @@ class DebuggerItem : Item(Properties()) {
       val errorMessage = formatError(error)
 
       if (level.isClientSide) {
-        LOGGER.info("calling highlight $error.pos")
+        LOGGER.info("calling highlight ${error.pos}")
         HighlightManager.highlight(error.pos)
+      } else if (player is net.minecraft.server.level.ServerPlayer) {
+        kz.minmax.mbdebugger.MBDebugger.NETWORK.sendToPlayer(kz.minmax.mbdebugger.network.SPacketHighlightBlock(error.pos), player)
       }
 
       LOGGER.info("Multiblock error: ${errorMessage.getString(120)}")

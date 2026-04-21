@@ -1,6 +1,10 @@
 package kz.minmax.mbdebugger
 
 import kz.minmax.mbdebugger.items.DebuggerItem
+import com.lowdragmc.lowdraglib.networking.INetworking
+import com.lowdragmc.lowdraglib.networking.forge.LDLNetworkingImpl
+import kz.minmax.mbdebugger.network.SPacketHighlightBlock
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.CreativeModeTabs
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
@@ -25,11 +29,15 @@ object MBDebugger {
   val ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MOD_ID)
   val DEBUGGER_ITEM: RegistryObject<DebuggerItem> = ITEMS.register("debugger") { DebuggerItem() }
 
+  val NETWORK: INetworking = LDLNetworkingImpl.createNetworking(ResourceLocation(MOD_ID, "network"), "1.0")
+
   init {
     LOGGER.log(Level.INFO, "Hello world!")
 
     // Register the KDeferredRegister to the mod-specific event bus
     ITEMS.register(MOD_BUS)
+    
+    NETWORK.registerS2C(SPacketHighlightBlock::class.java)
 
     runForDist(
       clientTarget = {
